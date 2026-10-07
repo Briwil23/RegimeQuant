@@ -13,6 +13,19 @@ This question is investigatory, not assumed true.
 Information dated after time t must not influence quantities represented as available at time t.
 All future milestones must preserve strict causal information flow.
 
+For M1 market data, timestamp, available_at, and retrieval_timestamp_utc are distinct concepts:
+
+- timestamp is the market observation time
+- available_at is the earliest time an observation may be used by research, or explicitly unknown/unverified
+- retrieval_timestamp_utc is provenance only
+
+Availability claims must remain policy-qualified.
+M1 allows only controlled availability policies (`fixture_declared_availability`, `external_verified_availability`, `unknown_unverified_availability`) and must not label unknown availability as independently verified history.
+For provenance auditing, source-row availability counts and canonical post-dedup availability counts must remain distinct metadata fields.
+
+Downstream transformations must respect information availability as a separate causality axis.
+Future-append invariance is required for canonicalization and derived returns.
+
 ## B. Look-Ahead Bias
 
 Look-ahead bias is prohibited.
@@ -22,6 +35,8 @@ Future transformations, fitting, parameter estimation, normalization, selection,
 
 Present-day universe membership must not be silently treated as historical point-in-time membership.
 If point-in-time constituent data is unavailable, that limitation must be explicit.
+
+M1 implements only a static universe and must disclose survivorship limitations whenever the static universe is used for historical research.
 
 ## D. Data Leakage
 
@@ -52,6 +67,10 @@ Research outputs must be reproducible from explicit data provenance, universe de
 Raw source data should not be silently overwritten by transformations.
 Derived datasets must remain conceptually distinct from source inputs.
 
+In M1, canonical observations and derived returns are separate artifacts.
+Adjusted historical series may incorporate provider revisions or backfilled corporate-action information, so adjusted history is not automatically certified as a point-in-time vintage.
+M1 provenance attached via `DataFrame.attrs` is in-memory metadata and not a durable serialization contract.
+
 ## J. Failure Is Allowed
 
 A hypothesis that fails rigorous validation must not be manipulated to appear successful.
@@ -61,6 +80,8 @@ Negative results are valid research outcomes.
 
 RegimeQuant must distinguish observed historical relationships, statistical evidence, model estimates, out-of-sample results, simulated strategy results, and actual live trading results.
 RegimeQuant does not conduct live trading.
+
+M1 market-data outputs must not be described as regime detection, signal generation, backtesting, or trading capability.
 
 ## Boundaries
 
