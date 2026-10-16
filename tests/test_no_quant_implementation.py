@@ -13,9 +13,17 @@ IMPLEMENTED_M1_DATA_FILES = {
     Path("src/regimequant/data/returns.py"),
 }
 
+IMPLEMENTED_M2_FEATURE_FILES = {
+    Path("src/regimequant/features/__init__.py"),
+    Path("src/regimequant/features/definitions.py"),
+    Path("src/regimequant/features/engine.py"),
+    Path("src/regimequant/features/models.py"),
+    Path("src/regimequant/features/rolling.py"),
+    Path("src/regimequant/features/validation.py"),
+}
+
 
 FUTURE_PACKAGES = [
-    "features",
     "regimes",
     "statarb",
     "signals",
@@ -101,6 +109,12 @@ def test_authorized_m1_data_files_only_are_present() -> None:
     data_root = Path("src/regimequant/data")
     observed = {path for path in _all_python_files(data_root)}
     assert observed == IMPLEMENTED_M1_DATA_FILES
+
+
+def test_authorized_m2_feature_files_only_are_present() -> None:
+    features_root = Path("src/regimequant/features")
+    observed = {path for path in _all_python_files(features_root)}
+    assert observed == IMPLEMENTED_M2_FEATURE_FILES
 
 
 def test_authorized_m1_data_files_have_no_forbidden_imports() -> None:
