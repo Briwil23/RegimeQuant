@@ -16,6 +16,8 @@ dist/
 
 # Environments
 .venv/
+.venv_pd223/
+.venv_pd306/
 venv/
 .env
 .env.*

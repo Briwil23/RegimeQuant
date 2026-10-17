@@ -4,6 +4,17 @@ import ast
 from pathlib import Path
 
 
+APPROVED_M3_REGIME_FILES = {
+    Path("src/regimequant/regimes/__init__.py"),
+    Path("src/regimequant/regimes/contracts.py"),
+    Path("src/regimequant/regimes/matrix.py"),
+    Path("src/regimequant/regimes/model.py"),
+    Path("src/regimequant/regimes/assignment.py"),
+    Path("src/regimequant/regimes/diagnostics.py"),
+    Path("src/regimequant/regimes/splits.py"),
+}
+
+
 IMPLEMENTED_M1_DATA_FILES = {
     Path("src/regimequant/data/__init__.py"),
     Path("src/regimequant/data/errors.py"),
@@ -24,7 +35,6 @@ IMPLEMENTED_M2_FEATURE_FILES = {
 
 
 FUTURE_PACKAGES = [
-    "regimes",
     "statarb",
     "signals",
     "backtesting",
@@ -50,7 +60,6 @@ FORBIDDEN_EXPORTED_APIS = {
     "run_backtest",
     "backtest",
     "fit_cointegration",
-    "discover_regimes",
 }
 
 FORBIDDEN_CALLABLE_NAMES = {
@@ -59,7 +68,6 @@ FORBIDDEN_CALLABLE_NAMES = {
     "run_backtest",
     "fit_cointegration",
     "fit_pca",
-    "fit_kmeans",
     "fit_gmm",
     "fit_hmm",
     "optimize_portfolio",
@@ -109,6 +117,13 @@ def test_authorized_m1_data_files_only_are_present() -> None:
     data_root = Path("src/regimequant/data")
     observed = {path for path in _all_python_files(data_root)}
     assert observed == IMPLEMENTED_M1_DATA_FILES
+
+
+def test_authorized_m3_regime_files_only_are_present() -> None:
+    regime_root = Path("src/regimequant/regimes")
+    observed = {path for path in _all_python_files(regime_root)}
+    assert observed == APPROVED_M3_REGIME_FILES
+    assert "regimes" not in FUTURE_PACKAGES
 
 
 def test_authorized_m2_feature_files_only_are_present() -> None:
