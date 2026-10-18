@@ -19,6 +19,12 @@ APPROVED_M3_REGIME_FILES = {
     Path("src/regimequant/regimes/m4/report.py"),
     Path("src/regimequant/regimes/m4/synthetic.py"),
     Path("src/regimequant/regimes/m4/validation.py"),
+    Path("src/regimequant/regimes/m5/__init__.py"),
+    Path("src/regimequant/regimes/m5/contracts.py"),
+    Path("src/regimequant/regimes/m5/identity.py"),
+    Path("src/regimequant/regimes/m5/model.py"),
+    Path("src/regimequant/regimes/m5/assignment.py"),
+    Path("src/regimequant/regimes/m5/validation.py"),
 }
 
 
