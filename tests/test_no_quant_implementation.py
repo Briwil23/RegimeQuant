@@ -27,6 +27,16 @@ APPROVED_M3_REGIME_FILES = {
     Path("src/regimequant/regimes/m5/validation.py"),
 }
 
+APPROVED_M6_UNIVERSE_FILES = {
+    Path("src/regimequant/universe/__init__.py"),
+    Path("src/regimequant/universe/contracts.py"),
+    Path("src/regimequant/universe/membership.py"),
+    Path("src/regimequant/universe/eligibility.py"),
+    Path("src/regimequant/universe/snapshot.py"),
+    Path("src/regimequant/universe/hash.py"),
+    Path("src/regimequant/universe/validation.py"),
+}
+
 
 IMPLEMENTED_M1_DATA_FILES = {
     Path("src/regimequant/data/__init__.py"),
@@ -137,6 +147,13 @@ def test_authorized_m3_regime_files_only_are_present() -> None:
     observed = {path for path in _all_python_files(regime_root)}
     assert observed == APPROVED_M3_REGIME_FILES
     assert "regimes" not in FUTURE_PACKAGES
+
+
+def test_authorized_m6_universe_files_only_are_present() -> None:
+    universe_root = Path("src/regimequant/universe")
+    observed = {path for path in _all_python_files(universe_root)}
+    assert observed == APPROVED_M6_UNIVERSE_FILES
+    assert "universe" not in FUTURE_PACKAGES
 
 
 def test_authorized_m2_feature_files_only_are_present() -> None:
