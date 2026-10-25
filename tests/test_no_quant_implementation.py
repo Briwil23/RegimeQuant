@@ -59,11 +59,27 @@ IMPLEMENTED_M2_FEATURE_FILES = {
 
 FUTURE_PACKAGES = [
     "statarb",
-    "signals",
     "backtesting",
     "validation",
     "research",
 ]
+
+
+ALLOWED_SIGNALS_FILES = {
+    "__init__.py",
+    "m8_contracts.py",
+    "m8_family_evidence.py",
+    "m8_eligibility.py",
+    "m8_calendar.py",
+    "m8_formation.py",
+    "m8_numerics.py",
+    "m8_signal.py",
+    "m8_identity.py",
+    "m8_validation.py",
+}
+
+
+SIGNALS_PLACEHOLDER_INIT_TEXT = """Signal-research placeholder package for future milestones."""
 
 
 FORBIDDEN_IMPORT_PREFIXES = {
@@ -134,6 +150,24 @@ def test_placeholder_packages_contain_no_runtime_implementation() -> None:
         assert "class " not in text
         assert "import pandas" not in text
         assert "import numpy" not in text
+
+
+def test_signals_scope_is_limited_to_authorized_m8_modules() -> None:
+    package_path = Path("src/regimequant/signals")
+    python_files = sorted(path.name for path in package_path.glob("*.py") if path.is_file())
+    assert set(python_files) == ALLOWED_SIGNALS_FILES
+
+
+def test_signals_initializer_remains_placeholder_only() -> None:
+    init_path = Path("src/regimequant/signals/__init__.py")
+    text = init_path.read_text(encoding="utf-8")
+    module = _read_ast(init_path)
+    assert ast.get_docstring(module) == SIGNALS_PLACEHOLDER_INIT_TEXT
+    lowered = text.lower()
+    assert "def " not in lowered
+    assert "class " not in lowered
+    assert "import pandas" not in lowered
+    assert "import numpy" not in lowered
 
 
 def test_authorized_m1_data_files_only_are_present() -> None:
