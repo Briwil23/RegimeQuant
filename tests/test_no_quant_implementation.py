@@ -59,10 +59,25 @@ IMPLEMENTED_M2_FEATURE_FILES = {
 
 FUTURE_PACKAGES = [
     "statarb",
-    "backtesting",
     "validation",
     "research",
 ]
+
+
+IMPLEMENTED_M9_BACKTESTING_FILES = {
+    Path("src/regimequant/backtesting/__init__.py"),
+    Path("src/regimequant/backtesting/m9_engine.py"),
+    Path("src/regimequant/backtesting/m9_contracts.py"),
+    Path("src/regimequant/backtesting/m9_temporal.py"),
+    Path("src/regimequant/backtesting/m9_trade_policy.py"),
+    Path("src/regimequant/backtesting/m9_risk.py"),
+    Path("src/regimequant/backtesting/m9_execution.py"),
+    Path("src/regimequant/backtesting/m9_costs.py"),
+    Path("src/regimequant/backtesting/m9_valuation.py"),
+    Path("src/regimequant/backtesting/m9_accounting.py"),
+    Path("src/regimequant/backtesting/m9_identity.py"),
+    Path("src/regimequant/backtesting/m9_reporting.py"),
+}
 
 
 ALLOWED_SIGNALS_FILES = {
@@ -194,6 +209,13 @@ def test_authorized_m2_feature_files_only_are_present() -> None:
     features_root = Path("src/regimequant/features")
     observed = {path for path in _all_python_files(features_root)}
     assert observed == IMPLEMENTED_M2_FEATURE_FILES
+
+
+def test_authorized_m9_backtesting_files_only_are_present() -> None:
+    backtesting_root = Path("src/regimequant/backtesting")
+    observed = {path for path in _all_python_files(backtesting_root)}
+    assert observed == IMPLEMENTED_M9_BACKTESTING_FILES
+    assert "backtesting" not in FUTURE_PACKAGES
 
 
 def test_authorized_m1_data_files_have_no_forbidden_imports() -> None:
